@@ -8,19 +8,16 @@ cask "sensible-defaults" do
   desc "Open developer files with a menu of your editors instead of Xcode"
   homepage "https://github.com/rupert-br/sensible-defaults"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Sensible Defaults.app"
-
-  # Launch Services only honours the file type claims of an app that has been launched once.
-  postflight do
-    system_command "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister",
-                   args: ["-f", "#{appdir}/Sensible Defaults.app"]
-    system_command "/usr/bin/open",
-                   args: ["-g", "#{appdir}/Sensible Defaults.app", "--args", "--register"]
-  end
 
   uninstall quit: "io.github.rupert-br.sensible-defaults"
 
   zap trash: "~/Library/Preferences/io.github.rupert-br.sensible-defaults.plist"
+
+  caveats <<~EOS
+    Open Sensible Defaults once to activate it. macOS only honours an app's
+    file type claims after its first launch.
+  EOS
 end
