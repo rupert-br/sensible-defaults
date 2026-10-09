@@ -22,7 +22,16 @@ git clone https://github.com/rupert-br/sensible-defaults && cd sensible-defaults
 scripts/build-app.sh --install
 ```
 
-This puts `Sensible Defaults.app` in `/Applications` and registers it. Or with Homebrew: `brew install --cask rupert-br/tap/sensible-defaults`.
+This puts `Sensible Defaults.app` in `/Applications` and registers it.
+
+Or with Homebrew, which installs the notarized release into `/Applications`:
+
+```bash
+brew tap rupert-br/sensible-defaults https://github.com/rupert-br/sensible-defaults
+brew install --cask rupert-br/sensible-defaults/sensible-defaults
+```
+
+Then open Sensible Defaults once to activate it.
 
 To uninstall, move the app to the Trash. Your previous default apps come back on their own.
 

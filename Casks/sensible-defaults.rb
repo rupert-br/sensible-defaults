@@ -1,4 +1,3 @@
-# Lives in the tap repo (rupert-br/homebrew-tap) once a notarized release exists.
 cask "sensible-defaults" do
   version "0.1.0"
   sha256 "a211f1f73d307fb9470565b48df0ae8e990d14f211950cd244ef803ffb3a5be1"
