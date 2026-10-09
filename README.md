@@ -22,7 +22,7 @@ git clone https://github.com/rupert-br/sensible-defaults && cd sensible-defaults
 scripts/build-app.sh --install
 ```
 
-This puts `Sensible Defaults.app` in `~/Applications` and registers it. A Homebrew cask (`brew install --cask rupert-br/tap/sensible-defaults`) is planned once there is a notarized release.
+This puts `Sensible Defaults.app` in `/Applications` and registers it. A Homebrew cask (`brew install --cask rupert-br/tap/sensible-defaults`) is planned once there is a notarized release.
 
 To uninstall, move the app to the Trash. Your previous default apps come back on their own.
 

@@ -112,9 +112,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if settings == nil {
             settings = SettingsWindowController(store: store)
             NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: settings?.window, queue: .main) { [self] _ in
-                DispatchQueue.main.async { [self] in quitIfIdle() }
+                DispatchQueue.main.async { [self] in
+                    NSApp.setActivationPolicy(.accessory)
+                    quitIfIdle()
+                }
             }
         }
+        // Show a Dock icon and menu bar while the window is open; the chooser menu alone stays invisible.
+        NSApp.setActivationPolicy(.regular)
         settings?.reload()
         NSApp.activate(ignoringOtherApps: true)
         settings?.showWindow(nil)
@@ -126,7 +131,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if pendingOpens == 0, settings?.window?.isVisible != true { NSApp.terminate(nil) }
     }
 
-    /// Never shown (the app is an accessory), but provides ⌘Q, ⌘W and text editing shortcuts.
+    /// Visible only while the rules window is open; provides ⌘Q, ⌘W and text editing shortcuts.
     private static func mainMenu() -> NSMenu {
         let main = NSMenu()
         let appItem = NSMenuItem()
