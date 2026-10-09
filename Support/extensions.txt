@@ -1,0 +1,27 @@
+# Developer file extensions claimed by Sensible Defaults.
+# One per line, lowercase, no dot. Keep Support/Info.plist in sync (a unit test checks this).
+# languages
+py pyi pyw ipynb
+js mjs cjs jsx ts mts cts tsx
+c h cc cpp cxx c++ hh hpp hxx h++ m mm
+swift rs go zig nim cr d
+rb erb gemspec rake php pl pm lua
+java kt kts scala sc groovy gradle
+cs csx fsx fsi vb dart
+ex exs erl hrl hs lhs clj cljs cljc ml mli
+r jl lisp el scm rkt tcl awk sed sql
+asm s v sv vhd vhdl
+# shells
+sh bash zsh fish ksh csh tcsh ps1 psm1 psd1 bat cmd
+# web
+css scss sass less styl vue svelte astro
+hbs handlebars mustache ejs pug jade twig liquid njk graphql gql
+# data and config
+json jsonc json5 jsonl ndjson yaml yml toml xml xsd xsl xslt
+ini cfg conf config properties env lock tf tfvars hcl nix proto thrift
+# docs
+md markdown mdx rst adoc asciidoc tex bib org
+# build and tooling
+mk cmake dockerfile containerfile diff patch
+gitignore gitattributes gitmodules editorconfig npmrc nvmrc
+vim vimrc zshrc bashrc bash_profile zprofile zshenv profile
