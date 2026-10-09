@@ -17,7 +17,7 @@ sh bash zsh fish ksh csh tcsh ps1 psm1 psd1 bat cmd
 css scss sass less styl vue svelte astro
 hbs handlebars mustache ejs pug jade twig liquid njk graphql gql
 # data and config
-json jsonc json5 jsonl ndjson yaml yml toml xml xsd xsl xslt
+json jsonc json5 jsonl ndjson geojson yaml yml toml xml xsd xsl xslt
 ini cfg conf config properties env lock tf tfvars hcl nix proto thrift
 # docs
 md markdown mdx rst adoc asciidoc tex bib org

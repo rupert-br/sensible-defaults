@@ -7,7 +7,7 @@ Sensible Defaults replaces that with a small menu of the editors you have instal
 
 ## What it does
 
-- Opening a developer file (`.py`, `.json`, `.rs`, `.md`, … 164 extensions) shows a menu at the cursor: VS Code, Zed, Xcode and whatever else is installed, most recently used first. Press `1`–`9` or click.
+- Opening a developer file (`.py`, `.json`, `.rs`, `.md`, … 165 extensions) shows a menu at the cursor: VS Code, Zed, Xcode and whatever else is installed, most recently used first. Press `1`–`9` or click.
 - **Always Open .ext With** in that menu remembers a choice, so that file type skips the menu from then on. Hold ⌥ while opening to get the menu anyway.
 - **Edit Rules…** (or launching the app directly) opens a small window to change or remove those choices.
 - `.ts` files that are really MPEG video go to your video player; TypeScript gets the menu.
