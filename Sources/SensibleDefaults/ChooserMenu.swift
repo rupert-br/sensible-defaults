@@ -1,6 +1,11 @@
 import AppKit
 import SensibleCore
 
+/// Borderless windows refuse key status by default; the app is only activated with a key window.
+private final class AnchorWindow: NSWindow {
+    override var canBecomeKey: Bool { true }
+}
+
 /// The little menu shown at the cursor when developer files are opened.
 final class ChooserMenu: NSObject {
     enum Choice {
@@ -47,8 +52,25 @@ final class ChooserMenu: NSObject {
         menu.addItem(.separator())
         menu.addItem(plainItem("Edit Rules…", #selector(pickEditRules)))
 
+        // An accessory app without a window is not activated when Launch Services starts it, and
+        // a menu popped up by an inactive app is dismissed at once (seen on macOS 26). Anchor the
+        // menu to an invisible key window at the cursor and wait for the activation to arrive.
+        let anchor = AnchorWindow(contentRect: NSRect(origin: NSEvent.mouseLocation, size: NSSize(width: 1, height: 1)),
+                                  styleMask: .borderless, backing: .buffered, defer: false)
+        anchor.isReleasedWhenClosed = false
+        anchor.isOpaque = false
+        anchor.backgroundColor = .clear
+        anchor.hasShadow = false
+        anchor.level = .popUpMenu
+        anchor.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
-        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+        let deadline = Date().addingTimeInterval(0.5)
+        while !NSApp.isActive, let event = NSApp.nextEvent(matching: .any, until: deadline, inMode: .default, dequeue: true) {
+            NSApp.sendEvent(event)
+        }
+        log.notice("showing menu; app active: \(NSApp.isActive)")
+        menu.popUp(positioning: nil, at: .zero, in: anchor.contentView)
+        anchor.orderOut(nil)
         return choice
     }
 
