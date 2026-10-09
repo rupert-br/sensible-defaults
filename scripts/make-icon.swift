@@ -15,17 +15,20 @@ func render(_ pixels: Int) -> Data {
     NSGradient(starting: NSColor(calibratedRed: 0.16, green: 0.20, blue: 0.30, alpha: 1),
                ending: NSColor(calibratedRed: 0.07, green: 0.09, blue: 0.15, alpha: 1))!.draw(in: path, angle: -90)
 
-    // Three menu rows; the top one is the highlighted choice.
-    let rowHeight = s * 0.13, gap = s * 0.055
-    let left = s * 0.24, width = s * 0.52
-    var y = s * 0.5 + rowHeight * 0.5 + gap
-    for (index, alpha) in [1.0, 0.35, 0.35].enumerated() {
-        let row = NSRect(x: left, y: y, width: index == 2 ? width * 0.7 : width, height: rowHeight)
-        let color = index == 0 ? NSColor(calibratedRed: 0.25, green: 0.62, blue: 1.0, alpha: 1) : NSColor.white
-        color.withAlphaComponent(alpha).setFill()
-        NSBezierPath(roundedRect: row, xRadius: rowHeight * 0.3, yRadius: rowHeight * 0.3).fill()
-        y -= rowHeight + gap
+    // The </> glyph: white chevrons with an accent-coloured slash.
+    func stroke(_ points: [(CGFloat, CGFloat)], _ color: NSColor) {
+        let line = NSBezierPath()
+        line.move(to: NSPoint(x: points[0].0 * s, y: points[0].1 * s))
+        points.dropFirst().forEach { line.line(to: NSPoint(x: $0.0 * s, y: $0.1 * s)) }
+        line.lineWidth = s * 0.06
+        line.lineCapStyle = .round
+        line.lineJoinStyle = .round
+        color.setStroke()
+        line.stroke()
     }
+    stroke([(0.39, 0.64), (0.25, 0.50), (0.39, 0.36)], .white)
+    stroke([(0.61, 0.64), (0.75, 0.50), (0.61, 0.36)], .white)
+    stroke([(0.555, 0.69), (0.445, 0.31)], NSColor(calibratedRed: 0.25, green: 0.62, blue: 1.0, alpha: 1))
     NSGraphicsContext.restoreGraphicsState()
     return rep.representation(using: .png, properties: [:])!
 }
