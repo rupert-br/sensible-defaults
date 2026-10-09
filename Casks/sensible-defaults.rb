@@ -1,8 +1,7 @@
 # Lives in the tap repo (rupert-br/homebrew-tap) once a notarized release exists.
-# Fill in sha256 from the output of scripts/release.sh.
 cask "sensible-defaults" do
   version "0.1.0"
-  sha256 "REPLACE_WITH_SHA256_FROM_RELEASE_SCRIPT"
+  sha256 "a211f1f73d307fb9470565b48df0ae8e990d14f211950cd244ef803ffb3a5be1"
 
   url "https://github.com/rupert-br/sensible-defaults/releases/download/v#{version}/SensibleDefaults-#{version}.zip"
   name "Sensible Defaults"
