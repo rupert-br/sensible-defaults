@@ -51,8 +51,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.main.async { [self] in handle(urls, forceMenu: forceMenu) }
     }
 
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
-
     private func handle(_ urls: [URL], forceMenu: Bool) {
         let plan = Router(store: store).plan(for: urls, forceMenu: forceMenu)
         for group in plan.direct { open(group.files, with: group.app) }
@@ -87,9 +85,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         log.notice("opening \(files.count) file(s) with \(app.lastPathComponent, privacy: .public)")
         NSWorkspace.shared.open(files, withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration()) { _, error in
             DispatchQueue.main.async { [self] in
-                pendingOpens -= 1
-                if let error { NSAlert(error: error).runModal() }
-                quitIfIdle()
+                if let error {
+                    log.error("open failed: \(error.localizedDescription, privacy: .public)")
+                    NSAlert(error: error).runModal()
+                }
+                // Stay alive briefly: quitting the instant the launch is accepted can drop the hand-off.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+                    pendingOpens -= 1
+                    quitIfIdle()
+                }
             }
         }
     }
@@ -105,7 +109,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func showSettings() {
-        if settings == nil { settings = SettingsWindowController(store: store) }
+        if settings == nil {
+            settings = SettingsWindowController(store: store)
+            NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: settings?.window, queue: .main) { [self] _ in
+                DispatchQueue.main.async { [self] in quitIfIdle() }
+            }
+        }
         settings?.reload()
         NSApp.activate(ignoringOtherApps: true)
         settings?.showWindow(nil)
